@@ -28,11 +28,21 @@ pub const WBOLD_LIGHT_WHITE_COLOR:  &str = "\x1b[1;97m";
 
 pub const WRESET: &str = "\x1b[0m";
 
+/* For unsupported languages, documents */
+pub fn Regular(line: &str) {
+	let mut data = line.replace("int", format!("{}int{}", &WBOLD_RED_COLOR, &WRESET).as_str());
+	
+	data = data.replace("char", format!("{}char{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
+	data = data.replace("const", format!("{}const{}", &WBOLD_LIGHT_BLUE_COLOR, &WRESET).as_str());
+	data = data.replace("void", format!("{}void{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
+
+	println!("{}", data);	
+}
+
 /* For C++ */
 pub fn CPlusPlus(line: &str) {
-	let mut data = line.replace("echo", format!("{}echo{}", &WBOLD_GREEN_COLOR, &WRESET).as_str());
+	let mut data = line.replace("int", format!("{}int{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
 
-	data = data.replace("int", format!("{}int{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
 	data = data.replace("long", format!("{}long{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
 	
 	data = data.replace("bool", format!("{}bool{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
