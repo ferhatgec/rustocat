@@ -37,7 +37,6 @@ where P: AsRef<Path>, {
     Ok(io::BufReader::new(file).lines())
 }
 
-#[allow(non_snake_case)]
 fn read_file(filename: &str) {
 	if let Ok(lines) = read(&filename) {
 		println!("{}", &filename);
