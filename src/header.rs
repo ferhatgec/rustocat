@@ -44,3 +44,8 @@ pub fn print_bottom_header(len: u32) {
 	print!("╯\n{}", 
 		&WRESET); 
 }
+
+pub fn header_text(text: &str, language: &str) {
+	print!("🔒 {} | {}\n", format!("{} {}", WBOLD_LIGHT_MAGENTA_COLOR, text), 
+		format!("{} {} {}", &WBOLD_LIGHT_RED_COLOR, language, &WRESET));
+}

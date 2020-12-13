@@ -24,7 +24,8 @@ use languages::{
 
 use header::{
 	print_top_header,
-	print_bottom_header
+	print_bottom_header,
+	header_text
 };
 
 use colors::colorized::*;
@@ -39,8 +40,6 @@ where P: AsRef<Path>, {
 
 fn read_file(filename: &str) {
 	if let Ok(lines) = read(&filename) {
-		println!("{}", &filename);
-		
 		if filename.contains(".cpp") {
 			for line in lines {
 				if let Ok(ip) = line {
@@ -85,7 +84,7 @@ fn main() {
 	print_top_header(10);
 	
 	if file[1].contains(".cpp") {
-		print!("C++\n");		
+		header_text(&file[1], "C++");		
 	}
 	
 	print_bottom_header(10);
