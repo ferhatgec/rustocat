@@ -1,41 +1,57 @@
-/* MIT License
-#
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
-# Distributed under the terms of the MIT License.
-#
-# */
-
-#[path = "languages.rs"]
-#[allow(non_snake_case)]
-mod languages;
+// MIT License
+//
+// Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+// Distributed under the terms of the MIT License.
+//
+//
 
 use std::fs::File;
-use std::io::{self, BufRead};
 use std::path::Path;
+
+pub(self) mod header;
+pub(self) mod languages;
+pub(self) mod colors;
+
+use std::io::{
+	self, 
+	BufRead
+};
+
+use languages::{
+	cplusplus,
+	regular
+};
+
+use header::{
+	print_top_header,
+	print_bottom_header
+};
+
+use colors::colorized::*;
 
 const VERSION: &str = "0.1-beta-1";
 
-#[allow(non_snake_case)]
-fn Read<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+fn read<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
 where P: AsRef<Path>, {
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
 
 #[allow(non_snake_case)]
-fn ReadFile(filename: &str) {
-	if let Ok(lines) = Read(&filename) {
+fn read_file(filename: &str) {
+	if let Ok(lines) = read(&filename) {
 		println!("{}", &filename);
+		
 		if filename.contains(".cpp") {
 			for line in lines {
 				if let Ok(ip) = line {
-					languages::CPlusPlus(&ip);
+					cplusplus(&ip);
 				}	
 			}
 		} else {
 			for line in lines {
 				if let Ok(ip) = line {
-					languages::Regular(&ip);
+					regular(&ip);
 				}
 			}
 		}
@@ -44,19 +60,18 @@ fn ReadFile(filename: &str) {
 	}
 }
 
-#[allow(non_snake_case)]
-fn HelpFunction(argument: &str) {
+fn help_function(argument: &str) {
 	println!("{}\n{}\n{}", 
 		format!("{}Fegeya {}Rustocat {}{}", 
-			languages::WBOLD_RED_COLOR, 
-			languages::WBOLD_GREEN_COLOR,
-			languages::WBOLD_BLUE_COLOR,
+			WBOLD_RED_COLOR, 
+			WBOLD_GREEN_COLOR,
+			WBOLD_BLUE_COLOR,
 			&VERSION).as_str(),
-		format!("{} Colorized 'cat' implementation.", &languages::WBOLD_YELLOW_COLOR).as_str(),
+		format!("{} Colorized 'cat' implementation.", &WBOLD_YELLOW_COLOR).as_str(),
 		format!("{}{} [file]{}", 
-			languages::WBOLD_LIGHT_MAGENTA_COLOR, 
+			WBOLD_LIGHT_MAGENTA_COLOR, 
 			argument,
-			languages::WRESET).as_str());
+			WRESET).as_str());
 
 }
 
@@ -64,9 +79,18 @@ fn main() {
 	let file: Vec<_> = std::env::args().collect();
 	
 	if file.len() < 2 {
-		HelpFunction(&file[0]);
+		help_function(&file[0]);
 		std::process::exit(0);
 	}
 	
-	ReadFile(&file[1]);
+	print_top_header(10);
+	
+	if file[1].contains(".cpp") {
+		print!("C++\n");		
+	}
+	
+	print_bottom_header(10);
+	
+	read_file(&file[1]);
+	
 }

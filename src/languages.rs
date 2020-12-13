@@ -1,35 +1,17 @@
-/* MIT License
-#
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
-# Distributed under the terms of the MIT License.
-#
-# */
+// MIT License
+//
+// Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+// Distributed under the terms of the MIT License.
+//
+// 
 
-pub const WBOLD_RED_COLOR:          &str = "\x1b[1;31m";
-pub const WBOLD_GREEN_COLOR:        &str = "\x1b[1;32m";
-pub const WBOLD_YELLOW_COLOR:       &str = "\x1b[1;33m";
-pub const WBOLD_BLUE_COLOR:         &str = "\x1b[1;34m";
-pub const WBOLD_MAGENTA_COLOR:      &str = "\x1b[1;35m";
-pub const WBOLD_CYAN_COLOR:         &str = "\x1b[1;36m";
-pub const WBOLD_LIGHT_BLACK_COLOR:  &str = "\x1b[1;90m";
-pub const WBOLD_LIGHT_RED_COLOR:    &str = "\x1b[1;91m";
+#[path = "colors.rs"]
+pub(self) mod colors;
 
-#[allow(dead_code)]
-pub const WBOLD_LIGHT_GREEN_COLOR:  &str = "\x1b[1;92m";
-pub const WBOLD_LIGHT_YELLOW_COLOR: &str = "\x1b[1;93m";
-pub const WBOLD_LIGHT_BLUE_COLOR:   &str = "\x1b[1;94m";
-pub const WBOLD_LIGHT_MAGENTA_COLOR:&str = "\x1b[1;95m";
+use colors::colorized::*;
 
-#[allow(dead_code)]
-pub const WBOLD_LIGHT_CYAN_COLOR:   &str = "\x1b[1;96m";
-
-#[allow(dead_code)]
-pub const WBOLD_LIGHT_WHITE_COLOR:  &str = "\x1b[1;97m";
-
-pub const WRESET: &str = "\x1b[0m";
-
-/* For unsupported languages, documents */
-pub fn Regular(line: &str) {
+// For unsupported languages, documents
+pub fn regular(line: &str) {
 	let mut data = line.replace("int", format!("{}int{}", &WBOLD_RED_COLOR, &WRESET).as_str());
 	
 	data = data.replace("char", format!("{}char{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
@@ -39,8 +21,8 @@ pub fn Regular(line: &str) {
 	println!("{}", data);	
 }
 
-/* For C++ */
-pub fn CPlusPlus(line: &str) {
+// For C++
+pub fn cplusplus(line: &str) {
 	let mut data = line.replace("int", format!("{}int{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
 
 	data = data.replace("long", format!("{}long{}", &WBOLD_BLUE_COLOR, &WRESET).as_str());
