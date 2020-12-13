@@ -85,6 +85,8 @@ fn main() {
 	
 	if file[1].contains(".cpp") {
 		header_text(&file[1], "C++");		
+	} else {
+		header_text(&file[1], "Regular");
 	}
 	
 	print_bottom_header(10);
