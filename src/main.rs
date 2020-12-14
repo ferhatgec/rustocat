@@ -19,6 +19,7 @@ use std::io::{
 
 use languages::{
 	cplusplus,
+	flascript,
 	regular
 };
 
@@ -38,12 +39,18 @@ where P: AsRef<Path>, {
     Ok(io::BufReader::new(file).lines())
 }
 
-fn read_file(filename: &str) {
+fn read_file(filename: &str, language: u8) {
 	if let Ok(lines) = read(&filename) {
-		if filename.contains(".cpp") {
+		if language == 0 {
 			for line in lines {
 				if let Ok(ip) = line {
 					cplusplus(&ip);
+				}	
+			}
+		} else if language == 1 {
+			for line in lines {
+				if let Ok(ip) = line {
+					flascript(&ip);
 				}	
 			}
 		} else {
@@ -75,7 +82,8 @@ fn help_function(argument: &str) {
 
 fn main() {
 	let file: Vec<_> = std::env::args().collect();
-	
+	let language: u8;
+	 
 	if file.len() < 2 {
 		help_function(&file[0]);
 		std::process::exit(0);
@@ -83,14 +91,22 @@ fn main() {
 	
 	print_top_header(10);
 	
-	if file[1].contains(".cpp") {
+	if file[1].contains(".cpp") || file[1].contains(".hpp") || file[1].contains(".cc") || file[1].contains(".hh") {
 		header_text(&file[1], "C++");		
+		
+		language = 0;
+	} else if file[1].contains(".fls") || file[1].contains(".flsh") {
+		header_text(&file[1], "FlaScript");
+		
+		language = 1;
 	} else {
 		header_text(&file[1], "Regular");
+	
+		language = 2;
 	}
 	
 	print_bottom_header(10);
 	
-	read_file(&file[1]);
+	read_file(&file[1], language);
 	
 }
