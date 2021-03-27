@@ -8,9 +8,13 @@
 use std::fs::File;
 use std::path::Path;
 
-pub(self) mod header;
-pub(self) mod languages;
-pub(self) mod colors;
+#[macro_use]
+extern crate colodot;
+use crate::colodot::dot;
+
+mod header;
+mod languages;
+mod colors;
 
 use std::io::{
 	self,
@@ -29,8 +33,6 @@ use header::{
 	print_bottom_header,
 	header_text
 };
-
-use colors::colorized::*;
 
 const VERSION: &str = "0.1-beta-1";
 
@@ -75,18 +77,16 @@ fn read_file(filename: &str, language: i8) {
 }
 
 fn help_function(argument: &str) {
-	println!("{}\n{}\n{}",
-		format!("{}Fegeya {}Rustocat {}{}",
-			WBOLD_RED_COLOR,
-			WBOLD_GREEN_COLOR,
-			WBOLD_BLUE_COLOR,
-			&VERSION).as_str(),
-		format!("{} Colorized 'cat' implementation.", &WBOLD_YELLOW_COLOR).as_str(),
-		format!("{}{} [file]{}",
-			WBOLD_LIGHT_MAGENTA_COLOR,
-			argument,
-			WRESET).as_str());
+	colodot::colodot!(dot::DotTypes::Bold, dot::DotColors::Red, "Fegeya ",     false);
+	colodot::colodot!(dot::DotTypes::Bold, dot::DotColors::Green, "RustoCat ", false);
+	colodot::colodot!(dot::DotTypes::Bold, dot::DotColors::Blue, &VERSION,     false);
+	colodot::colodot!(dot::DotTypes::Bold, dot::DotColors::Yellow,
+		"\nColorized 'cat' implementation");
 
+	colodot::colodot!(dot::DotTypes::Bold, dot::DotColors::LightMagenta,
+		&format!("\n{} [file]\n", argument).to_string());
+
+	dot::reset();
 }
 
 fn main() {
